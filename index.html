@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Card Game</title>
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+        }
+
+        body {
+            background-color: goldenrod;
+        }
+
+        img {
+            width: 60px;
+            height: 60px;
+        }
+
+        .start {
+            top: 50%;
+            position: absolute;
+            left: 50%;
+            width: 250px;
+            transform: translate(-50%, -50%);
+            height: 3rem;
+            border: none;
+            border-radius: 1em;
+            font-weight: bold;
+            box-shadow: 3px -3px 5px black;
+        }
+
+        .container {
+
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            transition: transform 200ms ease-in-out;
+            background-color: white;
+            width: 28vw;
+            height: 75vh;
+            border-radius: 5px;
+            box-shadow: 2px 5px -5px 4px;
+        }
+
+        .score {
+            margin-top: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: end;
+            align-items: center;
+            margin-bottom: 25px;
+            position: relative;
+            right: -27%;
+
+
+        }
+
+        .score #little {
+            margin-right: 11px;
+        }
+
+        .cards-list {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(4, 1fr);
+            background-color: white;
+            padding-left: 48px;
+            grid-gap: 2px;
+            height: 62%;
+            width: 70%;
+            position: relative;
+            left: 5.5%;
+        }
+
+        .images {
+            border: 2px solid black;
+            border-width: bold;
+            border-radius: 4px;
+            background-color: transparent;
+            position: absolute;
+
+
+        }
+
+        .scaleImg {
+            border: 2px solid black;
+            border-width: bold;
+            border-radius: 4px;
+            background-color: transparent;
+            position: absolute;
+            transform: scale(1);
+        }
+
+        img {
+            width: 42px;
+            height: 42px;
+            transform: scale(0);
+            position: relative;
+            top: 9px;
+        }
+
+
+        .cards-list button {
+            background-color: white;
+            border: none;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            transition: transform 1s ease;
+            width: 60px;
+            height: 60px;
+            border: 3px solid;
+            font-weight: bolder;
+            border-radius: 4px;
+            z-index: 10;
+
+        }
+
+        button .front {
+            background-color: goldenrod;
+            width: 100%;
+            height: 100%;
+            transform: rotateY(0deg);
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bolder;
+            backface-visibility: hidden;
+
+
+        }
+
+        button .back {
+            transform: rotateY(180deg);
+            background-color: transparent;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0px;
+            backface-visibility: hidden;
+        }
+
+        .moves {
+            white-space: nowrap;
+            position: absolute;
+            top: 0px;
+            right: 156px;
+            font-weight: lighter;
+        }
+
+        .time {
+            font-weight: lighter;
+            position: absolute;
+            top: 30px;
+            right: 123px;
+        }
+
+
+
+
+        /* .cards-list button:hover {
+            transform: rotateY(180deg);
+        } */
+        .card-list button {
+            position: relative;
+            width: 60px;
+            height: 60px;
+            border: none;
+            transform-style: preserve-3d;
+            transition: all 1.5s ease;
+
+        }
+
+
+        .reset {
+
+            position: relative;
+            left: 50%;
+            margin-top: 25px;
+            border: none;
+            background-color: black;
+            color: white;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            transform: translate(-50%);
+            padding: 1rem;
+            border-radius: 5px;
+            width: 130px;
+        }
+
+        .result {
+            transform: scale(0);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100px;
+            border: none;
+            border-radius: 5px;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            font-size: xx-large;
+
+        }
+    </style>
+</head>
+
+<body>
+    <button class="start" onclick="startGame()">Start</button>
+    <div class="container">
+        <div class="score">
+            <h2>Moves:<div class="moves"></div>
+            </h2>
+            <h2 id="little">Time:<div class="time">00:00</div>
+            </h2>
+        </div>
+        <div class="cards-list">
+            <button class="item-1" onclick="turn(1)">
+                <div class="front">?</div>
+                <div class="back"></div>
+            </button>
+            <button class="item-2" onclick="turn(2)">
+                <div class="front">?</div>
+                <div class="back"></div>
+            </button>
+            <button class="item-3" onclick="turn(3)">
+                <div class="front">?</div>
+                <div class="back"></div>
+            </button>
+            <button class="item-4" onclick="turn(4)">
+                <div class="front">?</div>
+                <div class="back"></div>
+            </button>
+
+            <button class="item-5" onclick="turn(5)">
+                <div class="front">?</div>
+                <div class="back"></div>
+            </button>
+            <button class="item-6" onclick="turn(6)">
+                <div class="front">?</div>
+                <div class="back"></div>
+            </button>
+            <button class="item-7" onclick="turn(7)">
+                <div class="front">?</div>
+                <div class="back"></div>
+            </button>
+            <button class="item-8" onclick="turn(8)">
+                <div class="front">?</div>
+                <div class="back"></div>
+            </button>
+
+            <button class="item-9" onclick="turn(9)">
+                <div class="front">?</div>
+                <div class="back"></div>
+            </button>
+            <button class="item-10" onclick="turn(10)">
+                <div class="front">?</div>
+                <div class="back"></div>
+            </button>
+            <button class="item-11" onclick="turn(11)">
+                <div class="front">?</div>
+                <div class="back"></div>
+            </button>
+            <button class="item-12" onclick="turn(12)">
+                <div class="front">?</div>
+                <div class="back"></div>
+            </button>
+
+            <button class="item-13" onclick="turn(13)">
+                <div class="front">?</div>
+                <div class="back"></div>
+            </button>
+            <button class="item-14" onclick="turn(14)">
+                <div class="front">?</div>
+                <div class="back"></div>
+            </button>
+            <button class="item-15" onclick="turn(15)">
+                <div class="front">?</div>
+                <div class="back"></div>
+            </button>
+            <button class="item-16" onclick="turn(16)">
+                <div class="front">?</div>
+                <div class="back"></div>
+            </button>
+        </div>
+        <button class="reset" onclick="restart()">Stop Game</button>
+
+    </div>
+
+    <div class="result"></div>
+
+
+    <script>
+
+        let timeLeft = 120;
+
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+        }
+
+
+        function updateTimer() {
+            document.querySelector('.time').textContent = formatTime(timeLeft);
+            timeLeft--;
+
+            if (timeLeft < 0) {
+                clearInterval(timerInterval);
+                document.querySelector(".result").innerText = "You Have Lost.Better Luck Next Time"
+                document.querySelector(".result").style.transform = 'scale(1)'
+            }
+        }
+
+
+        let timerInterval;
+        let count = 0;
+        let rightChoice = 0;
+        let memory = new Array(17);
+        memory[0] = "empty";
+        let picVisible = [];
+        picVisible[0] = false;
+        const pics = ["red.png", "bee.png", "soccer-ball.png", "smart-watch.png", "road-trip.png", "sun.png", "rocket-launch.png", "bicycle.png"]
+        let used = [0, 0, 0, 0, 0, 0, 0, 0]
+        function imgAssigning() {
+            for (let i = 1; i <= 16; i++) {
+                picVisible[i] = true;
+                let randomIndex = Math.floor(Math.random() * 8)
+                if (used[randomIndex] < 2) {
+                    used[randomIndex]++
+                    document.querySelector(`.item-${i} .back`).innerHTML = `<img src="${pics[randomIndex]}" alt="Image">`
+                    memory[i] = pics[randomIndex]
+                } else
+                    i--
+            }
+
+        }
+        const start = document.querySelector(".start")
+        function startGame() {
+            document.querySelector(".container").style.transform = 'translate(-50%,-50%) scale(1)'
+            imgAssigning();
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+        let item;
+        function turn(item) {
+            console.log(memory)
+            count++;
+            if (picVisible[item]) {
+                document.querySelector(".moves").innerText = `${count}`;
+                console.log(count)
+                document.querySelector(`.item-${item}`).style.transform = 'rotateY(180deg)'
+                document.querySelector(`.item-${item} img`).style.transform = 'scale(1)'
+            }
+            else {
+                document.querySelector(`.item-${item}`).style.transform = 'rotateY(0deg)'
+            }
+            picVisible[item] = !picVisible[item];
+            index.push(item)
+            if (index.length == 2) {
+                setTimeout(() => {
+                    if (memory[index[0]] != memory[index[1]]) {
+                        turn(index[0])
+                        turn(index[1])
+                    }
+                    else {
+                        rightChoice++;
+                        if (rightChoice == 8) {
+                            document.querySelector(".result").innerText = "Congratulations !! You have won"
+                            document.querySelector(".result").style.transform = 'scale(1)'
+                            clearInterval(timerInterval);
+                        }
+                        document.querySelector(`.item-${index[0]}`).onclick = null;
+                        document.querySelector(`.item-${index[1]}`).onclick = null;
+                    }
+                    index = []
+                }, 750);
+            }
+
+
+
+        }
+        function restart() {
+            document.querySelector('.container').style.transform = 'scale(0)'
+
+        }
+
+        let index = []
+
+
+    </script>
+</body>
+
+</html>
